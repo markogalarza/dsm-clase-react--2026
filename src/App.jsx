@@ -1,6 +1,7 @@
 import './App.css'
-import Producto from './components/Producto'
 import Productos from './components/Productos'
+import Footer from './components/ui/Footer'
+import Header from './components/ui/Header'
 
 // function Producto() {
 //   return (
@@ -39,11 +40,9 @@ function App() {
 
   return (
     <>
+      <Header />
       <Productos productos={productos} />
-      {/* <Producto producto={productos[0]} />
-      <Producto producto={productos[1]} />
-      <Producto producto={productos[2]} /> */}
-
+      <Footer />
     </>
   )
 }
