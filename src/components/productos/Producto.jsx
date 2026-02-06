@@ -1,8 +1,9 @@
 import './producto.css'
 import FechaProducto from './FechaProducto'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal';
+import ProductosContext from '../../store/ProductosContext';
 
 function Producto(props) {
 
@@ -18,6 +19,8 @@ function Producto(props) {
     // const mes = fecha.toLocaleString('es-ES', { month: 'long' })
     // const dia = fecha.toLocaleString('es-ES', { day: '2-digit' })
 
+    const borrarContext = useContext(ProductosContext)
+
     const clickHandler = () => {
         //alert(props.producto.id)
         //nombre = 'NUEVO NOMBRE'
@@ -29,9 +32,13 @@ function Producto(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const borraHandler = () => {
+    const borraHandlerP = () => {
         //alert('handler')
         props.deleteProducto(props.producto.id)
+    }
+
+    const borraHandlerC = () => {
+        borrarContext.borrarProducto(props.producto.id)
     }
 
     return (
@@ -44,7 +51,8 @@ function Producto(props) {
                     VER DETALLES
                 </Button>
                 <Button variant='primary' onClick={clickHandler}>CAMBIA NOMBRE</Button>
-                <Button variant='danger' onClick={borraHandler}>BORRAR</Button>
+                <Button variant='danger' onClick={borraHandlerP}>BORRAR P</Button>
+                <Button variant='danger' onClick={borraHandlerC}>BORRAR C</Button>
                 <Modal show={show} onHide={handleClose} centered>
                     <Modal.Header closeButton>
                         <Modal.Title>PRODUCTO: {nombre}</Modal.Title>

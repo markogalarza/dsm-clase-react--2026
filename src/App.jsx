@@ -4,6 +4,8 @@ import NuevoProducto from './components/productos/NuevoProducto'
 import Productos from './components/productos/Productos'
 import Footer from './components/ui/Footer'
 import Header from './components/ui/Header'
+import AuthContext from './store/AuthContext'
+import ProductosContext from './store/ProductosContext'
 
 // function Producto() {
 //   return (
@@ -23,25 +25,28 @@ function App() {
   //   fecha: new Date()
   // }
 
+  const [login, setLogin] = useState(false)
+  const [language, setLanguage] = useState('en-EN')
+
   const [productos, setProductos] = useState(
     [
       {
         id: Math.random().toString(),
         nombre: 'Pantalla',
         precio: 45.67,
-        fecha: new Date()
+        fecha: new Date(2025, 2, 2)
       },
       {
         id: Math.random().toString(),
         nombre: 'Teclado',
         precio: 23,
-        fecha: new Date()
+        fecha: new Date(2026, 4, 4)
       },
       {
         id: Math.random().toString(),
         nombre: 'Ratón',
         precio: 45,
-        fecha: new Date()
+        fecha: new Date(2025, 6, 6)
       }
       ,
       {
@@ -81,10 +86,14 @@ function App() {
 
   return (
     <>
-      <Header />
-      <NuevoProducto addProducto={addProducto} />
-      <Productos productos={productos} deleteProducto={deleteProducto} />
-      <Footer />
+      <AuthContext.Provider value={{ login: login, language: language }}>
+        <Header />
+        <NuevoProducto addProducto={addProducto} />
+        <ProductosContext.Provider value={{borrarProducto: deleteProducto}}>
+          <Productos productos={productos} deleteProducto={deleteProducto} />
+        </ProductosContext.Provider>
+        <Footer />
+      </AuthContext.Provider>
     </>
   )
 }

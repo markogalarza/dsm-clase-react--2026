@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button, Form } from "react-bootstrap"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,6 +6,10 @@ import Col from 'react-bootstrap/Col';
 
 function NuevoProducto(props) {
 
+    useEffect(() => {
+        refNombre.current.focus()
+    }, [])
+    
     const [nombre, setNombre] = useState('')
     const [precio, setPrecio] = useState('')
     const [fecha, setFecha] = useState('')
@@ -22,6 +26,8 @@ function NuevoProducto(props) {
         setFecha(event.target.value)
     }
 
+    const refNombre = useRef()
+
     const submitHandler = (event) => {
         //alert('Enviado')
         event.preventDefault()
@@ -36,6 +42,7 @@ function NuevoProducto(props) {
         setNombre('')
         setPrecio('')
         setFecha('')
+        refNombre.current.focus()
     }
 
     return (
@@ -44,7 +51,7 @@ function NuevoProducto(props) {
                 <Row>
                     <Col>
                         <Form.Label>Nombre:</Form.Label>
-                        <Form.Control type='text' onChange={nombreHandler} value={nombre} />
+                        <Form.Control ref={refNombre} type='text' onChange={nombreHandler} value={nombre} />
                     </Col>
                     <Col>
                         <Form.Label>Precio:</Form.Label>
