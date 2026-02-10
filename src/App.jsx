@@ -6,6 +6,12 @@ import Footer from './components/ui/Footer'
 import Header from './components/ui/Header'
 import AuthContext from './store/AuthContext'
 import ProductosContext from './store/ProductosContext'
+import Home from './pages/Home'
+import { Route, Routes } from 'react-router'
+import AboutUs from './pages/AboutUs'
+import Contact from './pages/Contact'
+import ErrorPage from './pages/ErrorPage'
+import DetalleProducto from './pages/DetalleProducto'
 
 // function Producto() {
 //   return (
@@ -84,14 +90,28 @@ function App() {
     })
   }
 
+  const contenidoProductos = <>
+    {/* <NuevoProducto addProducto={addProducto} /> */}
+    <ProductosContext.Provider value={{ borrarProducto: deleteProducto }}>
+      <Productos productos={productos} deleteProducto={deleteProducto} />
+    </ProductosContext.Provider>
+  </>
+
   return (
     <>
       <AuthContext.Provider value={{ login: login, language: language }}>
         <Header />
-        <NuevoProducto addProducto={addProducto} />
-        <ProductosContext.Provider value={{borrarProducto: deleteProducto}}>
-          <Productos productos={productos} deleteProducto={deleteProducto} />
-        </ProductosContext.Provider>
+
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/about-us' element={<AboutUs />}></Route>
+          <Route path='/products' element={contenidoProductos} />
+          <Route path='/product/:id/:token' element= {<DetalleProducto />} />
+          <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} />} />
+          <Route path='/contact' element={<Contact />}></Route>
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
+
         <Footer />
       </AuthContext.Provider>
     </>

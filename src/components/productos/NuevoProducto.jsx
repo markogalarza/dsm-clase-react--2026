@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ReactDOM from 'react-dom'
 import './nuevoProducto.css'
+import { useNavigate } from "react-router"
 
 function InfoModal(props) {
 
@@ -38,6 +39,8 @@ function NuevoProducto(props) {
     const [fecha, setFecha] = useState('')
 
     const [nombreValid, setNombreValid] = useState(true)
+
+    const navega = useNavigate()
 
     const nombreHandler = (event) => {
         setNombre(event.target.value)
@@ -75,6 +78,7 @@ function NuevoProducto(props) {
         setPrecio('')
         setFecha('')
         refNombre.current.focus()
+        setTimeout(() => {navega('/products')}, 500)  
     }
 
     // const contenidoModal = <InfoModal titulo='Valida el formulario' mensaje='El campo nombre está vacío' />
@@ -85,7 +89,7 @@ function NuevoProducto(props) {
 
     return (
         <>
-            {!nombreValid && contenidoModal}
+            {/* {!nombreValid && contenidoModal} */}
             <Form onSubmit={submitHandler}>
                 <Container>
                     <Row>
