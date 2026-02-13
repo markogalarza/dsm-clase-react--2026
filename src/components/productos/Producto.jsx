@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal';
 import ProductosContext from '../../store/ProductosContext';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 function Producto(props) {
 
@@ -36,6 +37,10 @@ function Producto(props) {
     const borraHandlerP = () => {
         //alert('handler')
         props.deleteProducto(props.producto.id)
+        axios.delete('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos/' + props.producto.id + '.json')
+        .then((response) => {
+            alert('Se ha borrado el elemento de la BD.')
+        })
     }
 
     const borraHandlerC = () => {

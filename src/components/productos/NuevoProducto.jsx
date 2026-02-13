@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import ReactDOM from 'react-dom'
 import './nuevoProducto.css'
 import { useNavigate } from "react-router"
+import axios from "axios"
 
 function InfoModal(props) {
 
@@ -37,6 +38,7 @@ function NuevoProducto(props) {
     const [nombre, setNombre] = useState('')
     const [precio, setPrecio] = useState('')
     const [fecha, setFecha] = useState('')
+    const [descripcion, setDescripcion] = useState('')
 
     const [nombreValid, setNombreValid] = useState(true)
 
@@ -61,6 +63,10 @@ function NuevoProducto(props) {
         setFecha(event.target.value)
     }
 
+    const descripcionHandler = (event) => {
+        setDescripcion(event.target.value)
+    }
+
     const refNombre = useRef()
 
     const submitHandler = (event) => {
@@ -78,7 +84,21 @@ function NuevoProducto(props) {
         setPrecio('')
         setFecha('')
         refNombre.current.focus()
-        setTimeout(() => {navega('/products')}, 500)  
+        //setTimeout(() => {navega('/products')}, 500) 
+        
+        const productoFirebase = {
+            nombre: nombre,
+            precio: precio,
+            fecha: new Date(fecha),
+            descripcion: descripcion
+        }
+
+        axios.post('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos.json', productoFirebase)
+        .then(() => {
+            alert('Se ha insertado el elemento en la BD.')
+        })
+        .catch((error) => console.log('Se ha producido algún error.'))
+
     }
 
     // const contenidoModal = <InfoModal titulo='Valida el formulario' mensaje='El campo nombre está vacío' />
@@ -104,6 +124,10 @@ function NuevoProducto(props) {
                         <Col>
                             <Form.Label>Fecha:</Form.Label>
                             <Form.Control type='date' onChange={fechaHandler} value={fecha} />
+                        </Col>
+                        <Col>
+                            <Form.Label>Descripción:</Form.Label>
+                            <Form.Control type='text' onChange={descripcionHandler} value={descripcion} />
                         </Col>
                         <Col>
                             <Button variant='success' type='submit'>NUEVO PRODUCTO</Button>

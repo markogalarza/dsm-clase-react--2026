@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import NuevoProducto from './components/productos/NuevoProducto'
 import Productos from './components/productos/Productos'
@@ -12,6 +12,8 @@ import AboutUs from './pages/AboutUs'
 import Contact from './pages/Contact'
 import ErrorPage from './pages/ErrorPage'
 import DetalleProducto from './pages/DetalleProducto'
+import axios from 'axios'
+import EditarProducto from './components/productos/EditarProducto'
 
 // function Producto() {
 //   return (
@@ -33,6 +35,29 @@ function App() {
 
   const [login, setLogin] = useState(false)
   const [language, setLanguage] = useState('en-EN')
+
+  const [productosFirebase, setProductosFirebase] = useState([])
+
+  useEffect(() => {
+    axios.get('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos.json')
+      .then((response) => {
+        //console.log(response.data)
+        let arrayProductos = []
+        for (let key in response.data) {
+          arrayProductos.push(
+            {
+              id: key,
+              nombre: response.data[key].nombre,
+              precio: response.data[key].precio,
+              fecha: new Date(response.data[key].fecha),
+              descripcion: response.data[key].descripcion,
+            }
+          )
+        }
+        setProductosFirebase(arrayProductos)
+      })
+      .catch((error) => console.log('Se ha producido algún error.'))
+  }, [])
 
   const [productos, setProductos] = useState(
     [
@@ -93,6 +118,7 @@ function App() {
   const contenidoProductos = <>
     {/* <NuevoProducto addProducto={addProducto} /> */}
     <ProductosContext.Provider value={{ borrarProducto: deleteProducto }}>
+      <Productos productos={productosFirebase} deleteProducto={deleteProducto} />
       <Productos productos={productos} deleteProducto={deleteProducto} />
     </ProductosContext.Provider>
   </>
@@ -106,8 +132,9 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/about-us' element={<AboutUs />}></Route>
           <Route path='/products' element={contenidoProductos} />
-          <Route path='/product/:id/:token' element= {<DetalleProducto />} />
+          <Route path='/product/:id/:token' element={<DetalleProducto />} />
           <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} />} />
+          <Route path='/product/edit/:id' element={<EditarProducto />} />
           <Route path='/contact' element={<Contact />}></Route>
           <Route path='*' element={<ErrorPage />} />
         </Routes>
