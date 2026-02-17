@@ -19,7 +19,8 @@ function DetalleProducto() {
                     nombre: response.data[parametros.id].nombre,
                     precio: response.data[parametros.id].precio,
                     fecha: new Date(response.data[parametros.id].fecha),
-                    descripcion: response.data[parametros.id].descripcion
+                    descripcion: response.data[parametros.id].descripcion,
+                    image: response.data[parametros.id].image
                 })
             })
     }, [])
@@ -28,6 +29,7 @@ function DetalleProducto() {
         <>
             <h2>INFORMACIÓN DEL PRODUCTO {producto.nombre}</h2>
             <p>Descripción del producto: {producto.descripcion}</p>
+            <img src={producto.image} width='400' />
             <Button variant='warning'><Link to={`/product/edit/${parametros.id}`}>EDITAR PRODUCTO</Link></Button>
             <h2>-----------------------------</h2>
             <h2>INFORMACIÓN DEL PRODUCTO {parametros.id}</h2>

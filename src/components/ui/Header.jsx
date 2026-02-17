@@ -30,8 +30,14 @@ function Header() {
                     <Link to='/product-new'>NUEVO PRODUCTO</Link>--
                 </Nav.Item>
                 <Nav.Item>
-                    <Link to='/contact?sede=PAMPLONA&persona=Juan Andrés'>CONTACTO</Link>
+                    <Link to='/contact?sede=PAMPLONA&persona=Juan Andrés'>CONTACTO</Link>--
                     {/* <Nav.Link  href='/contact'>Contacto</Nav.Link> */}
+                </Nav.Item>
+                <Nav.Item>
+                    <Link to='/login'>LOGIN</Link>--
+                </Nav.Item>
+                <Nav.Item>
+                    <Link to='/register'>REGISTRARSE</Link>
                 </Nav.Item>
             </Nav>
         </div>

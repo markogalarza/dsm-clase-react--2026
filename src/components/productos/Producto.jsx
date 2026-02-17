@@ -6,10 +6,13 @@ import Modal from 'react-bootstrap/Modal';
 import ProductosContext from '../../store/ProductosContext';
 import { Link } from 'react-router';
 import axios from 'axios';
+import AuthContext from '../../store/AuthContext';
 
 function Producto(props) {
 
     const [nombre, setNombre] = useState(props.producto.nombre)
+
+    const authContext = useContext(AuthContext)
 
     // const nombre = 'Pantalla'
     // const precio = 45.76
@@ -37,7 +40,7 @@ function Producto(props) {
     const borraHandlerP = () => {
         //alert('handler')
         props.deleteProducto(props.producto.id)
-        axios.delete('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos/' + props.producto.id + '.json')
+        axios.delete('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos/' + props.producto.id + '.json?auth=' + authContext.idToken)
         .then((response) => {
             alert('Se ha borrado el elemento de la BD.')
         })

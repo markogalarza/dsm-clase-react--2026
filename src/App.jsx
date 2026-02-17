@@ -14,6 +14,8 @@ import ErrorPage from './pages/ErrorPage'
 import DetalleProducto from './pages/DetalleProducto'
 import axios from 'axios'
 import EditarProducto from './components/productos/EditarProducto'
+import Login from './components/login/Login'
+import Registro from './components/login/Registro'
 
 // function Producto() {
 //   return (
@@ -34,7 +36,20 @@ function App() {
   // }
 
   const [login, setLogin] = useState(false)
+  const [loginData, setLoginData] = useState({})
   const [language, setLanguage] = useState('en-EN')
+
+  useEffect(() => {
+    if(localStorage.getItem('login')==='true') {
+      setLogin(true)
+      setLoginData({idToken: localStorage.getItem('idToken')})
+    }
+  }, [])
+
+  const actualizaLogin = (login, loginData) => {
+    setLogin(login)
+    setLoginData(loginData)
+  }
 
   const [productosFirebase, setProductosFirebase] = useState([])
 
@@ -125,7 +140,7 @@ function App() {
 
   return (
     <>
-      <AuthContext.Provider value={{ login: login, language: language }}>
+      <AuthContext.Provider value={{ login: login, language: language, idToken: loginData.idToken }}>
         <Header />
 
         <Routes>
@@ -133,9 +148,11 @@ function App() {
           <Route path='/about-us' element={<AboutUs />}></Route>
           <Route path='/products' element={contenidoProductos} />
           <Route path='/product/:id/:token' element={<DetalleProducto />} />
-          <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} />} />
-          <Route path='/product/edit/:id' element={<EditarProducto />} />
+          <Route path='/product-new' element={<NuevoProducto addProducto={addProducto} idToken={loginData.idToken} />} />
+          <Route path='/product/edit/:id' element={<EditarProducto idToken={loginData.idToken} />} />
           <Route path='/contact' element={<Contact />}></Route>
+          <Route path='/login' element={<Login actualizaLogin={actualizaLogin} />} />
+          <Route path='/register' element={<Registro actualizaLogin={actualizaLogin} />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
 

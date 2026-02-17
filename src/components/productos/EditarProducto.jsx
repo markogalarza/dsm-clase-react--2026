@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Button, Col, Container, Form, Row } from "react-bootstrap"
 import { useParams } from "react-router"
 
-function EditarProducto() {
+function EditarProducto(props) {
 
     const parametros = useParams()
 
@@ -39,7 +39,7 @@ function EditarProducto() {
             descripcion: descripcion
         }
         //console.log(producto)
-        axios.put('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos/' + parametros.id + '.json', producto)
+        axios.put('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos/' + parametros.id + '.json?auth=' + props.idToken, producto)
         .then((response) => {
             alert('Se ha modificado el producto.')
         })

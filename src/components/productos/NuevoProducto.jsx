@@ -93,7 +93,7 @@ function NuevoProducto(props) {
             descripcion: descripcion
         }
 
-        axios.post('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos.json', productoFirebase)
+        axios.post('https://dsm-react-clase-2026-default-rtdb.europe-west1.firebasedatabase.app/productos.json?auth=' + props.idToken, productoFirebase)
         .then(() => {
             alert('Se ha insertado el elemento en la BD.')
         })
